@@ -33,7 +33,7 @@ abstract class AbstractSort implements ISort {
         return $this->compare( $left, $right ) === self::LEFT_LESS_THEN_RIGHT;
     }
     
-    protected function isLeftLessOrEqualsTORight( $left, $right ){
+    protected function isLeftLessOrEqualsToRight( $left, $right ){
         return $this->compare( $left, $right ) <= self::LEFT_EQUALS_TO_RIGHT;
     }
     

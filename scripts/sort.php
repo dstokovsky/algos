@@ -10,7 +10,7 @@ while ( !feof( $file_handler ) ){
 }
 fclose( $file_handler );
 
-$sort = SortFactory::create( "Insertion", $list );
+$sort = SortFactory::create( "Median", $list );
 print "Unsorted list: " . implode( ", ", $sort->getList() ) . PHP_EOL;
 $sort->execute();
 if( $sort->isListSorted() ){
