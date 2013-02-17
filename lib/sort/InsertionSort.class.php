@@ -13,12 +13,12 @@ class InsertionSort extends AbstractSort {
         $this->updateSortedList( $unsorted_list );
     }
 
-    public function execute( $order = ISort::ORDER_ASC ) {
+    public function execute() {
         $unsorted_list = $this->getList();
         for( $position = 1; $position < count( $unsorted_list ); $position++ ){
             $this->_insert( $position, $unsorted_list[ $position ] );
         }
-        $this->markListAsSorted();
+        $this->checkListSorting();
     }
 }
 ?>

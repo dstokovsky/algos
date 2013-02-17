@@ -16,6 +16,6 @@ $sort->execute();
 if( $sort->isListSorted() ){
     print "Sorted list: " . implode( ", ", $sort->getList() ) . PHP_EOL;
 }else{
-    print "Error has been occured" . PHP_EOL;
+    print "List was not sorted: " . implode( ", ", $sort->getList() ) . PHP_EOL;
 }
 ?>

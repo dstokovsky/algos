@@ -21,27 +21,35 @@ abstract class AbstractSort implements ISort {
         }
     }
     
+    protected function isLeftEqualsToRight( $left, $right ){
+        return $this->compare( $left, $right ) === self::LEFT_EQUALS_TO_RIGHT;
+    }
+    
     protected function isLeftMoreThenRight( $left, $right ){
         return $this->compare( $left, $right ) === self::LEFT_MORE_THEN_RIGHT;
     }
     
-    protected function isLeftMoreOrEqualsToRight( $left, $right ){
-        return $this->compare( $left, $right ) >= self::LEFT_EQUALS_TO_RIGHT;
-    }
-
     protected function isLeftLessThenRight( $left, $right ){
         return $this->compare( $left, $right ) === self::LEFT_LESS_THEN_RIGHT;
     }
     
-    protected function isLeftLessOrEqualsToRight( $left, $right ){
-        return $this->compare( $left, $right ) <= self::LEFT_EQUALS_TO_RIGHT;
+    protected function isLeftMoreOrEqualsToRight( $left, $right ){
+        return $this->isLeftMoreThenRight( $left, $right ) || $this->isLeftEqualsToRight( $left, $right );
     }
     
-    protected function isLeftEqualsToRight( $left, $right ){
-        return $this->compare( $left, $right ) === self::LEFT_EQUALS_TO_RIGHT;
+    protected function isLeftLessOrEqualsToRight( $left, $right ){
+        return $this->isLeftLessThenRight( $left, $right ) || $this->isLeftEqualsToRight( $left, $right );
     }
 
-    protected function markListAsSorted(){
+    protected function checkListSorting(){
+        $list = $this->getList();
+        for( $index = 1; $index < count( $list ); $index++ ){
+            if( $this->isLeftLessThenRight( $list[ $index ], $list[ $index - 1 ] ) ){
+                $this->is_list_sorted = false;
+                return;
+            }
+        }
+        
         $this->is_list_sorted = true;
     }
     
@@ -69,6 +77,6 @@ abstract class AbstractSort implements ISort {
         return $this->is_list_sorted;
     }
 
-    abstract public function execute( $order = ISort::ORDER_ASC );
+    abstract public function execute();
 }
 ?>

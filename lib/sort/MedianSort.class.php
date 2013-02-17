@@ -22,29 +22,35 @@ class MedianSort extends AbstractSort{
         return $store_index;
     }
     
-    private function _medianSort( $left, $right, $k ){
-        if( $this->isLeftMoreOrEqualsToRight( $left, $right ) ){
+    private function _selectKth( $k, $left, $right ){
+        $pivot_index = rand( $left, $right );
+        $pivot_new_index = $this->_partition( $left, $right, $pivot_index );
+        if( $this->isLeftEqualsToRight( $left + $k - 1, $pivot_new_index ) ){
+            return $pivot_new_index;
+        }
+        
+        if( $this->isLeftLessThenRight( $left + $k -1, $pivot_new_index ) ){
+            return $this->_selectKth( $k, $left, $pivot_new_index - 1 );
+        }else{
+            return $this->_selectKth( $k - ( $pivot_new_index - $left + 1 ), $pivot_new_index + 1, $right );
+        }
+    }
+
+    private function _medianSort( $left, $right ){
+        if( $this->isLeftLessOrEqualsToRight( $right, $left ) ){
             return;
         }
         
-        $pivot_index = ( int ) ( $right - $left + 1 ) / 2;
-        $pivot_new_index = $this->_partition( $left, $right, $pivot_index );
-        $pivot_dist = $pivot_new_index - $left + 1;
-        $unsorted_list = $this->getList();
+        $mid = ( int ) ( ( $right - $left + 1 ) / 2 );
+        $me = $this->_selectKth( $mid + 1, $left, $right );
         
-        switch ( true ){
-            case $this->isLeftEqualsToRight( $pivot_dist, $k ):
-                return $unsorted_list[ $pivot_new_index ];
-            case $this->isLeftLessThenRight( $k, $pivot_dist ):
-                return $this->_medianSort( $left, $pivot_new_index - 1, $k );
-            default:
-                return $this->_medianSort( $pivot_new_index + 1, $right, $k - $pivot_dist );
-        }
+        $this->_medianSort( $left, $left + $mid - 1 );
+        $this->_medianSort( $left + $mid + 1, $right );
     }
     
-    public function execute( $order = ISort::ORDER_ASC ) {
-        $this->_medianSort( 0, count( $this->getList() ) - 1, 0 );
-        $this->markListAsSorted();
+    public function execute() {
+        $this->_medianSort( 0, count( $this->getList() ) - 1 );
+        $this->checkListSorting();
     }
 }
 ?>
