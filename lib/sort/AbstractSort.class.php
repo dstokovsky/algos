@@ -40,6 +40,10 @@ abstract class AbstractSort implements ISort {
     protected function isLeftLessOrEqualsToRight( $left, $right ){
         return $this->isLeftLessThenRight( $left, $right ) || $this->isLeftEqualsToRight( $left, $right );
     }
+    
+    protected function isLeftNotEqualsToRight( $left, $right ){
+        return $this->isLeftLessThenRight( $left, $right ) || $this->isLeftMoreThenRight( $left, $right );
+    }
 
     protected function checkListSorting(){
         $list = $this->getList();
