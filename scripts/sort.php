@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "algorithms_config.php";
+function __autoload( $class_name ) {
+    require_once __DIR__ . "/../lib/sort/{$class_name}.class.php";
+}
 
 $sorting_data_file = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "fixtures" . 
     DIRECTORY_SEPARATOR . "sorting_data.txt";

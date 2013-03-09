@@ -14,6 +14,10 @@ class SortFactory {
                 return new SelectionSort( $list );
             case "Heap":
                 return new HeapSort( $list );
+            case "Counting":
+                return new CountingSort( $list );
+            case "Bucket":
+                return new BucketSort( $list );
             default:
                 return new InsertionSort( $list );
         }

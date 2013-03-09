@@ -2,10 +2,9 @@
 
 class HeapSort extends AbstractSort{
     
-    private function _heapify( $idx, $max ){
+    private function _heapify( &$unsorted_list, $idx, $max ){
         $left = 2 * $idx + 1;
         $right = 2 * $idx + 2;
-        $unsorted_list = $this->getList();
         $largest = ( 
             $this->isLeftLessThenRight( $left, $max ) && 
             $this->isLeftMoreThenRight( $unsorted_list[ $left ], $unsorted_list[ $idx ] ) 
@@ -21,15 +20,17 @@ class HeapSort extends AbstractSort{
         if( $this->isLeftNotEqualsToRight( $largest, $idx ) ){
             list( $unsorted_list[ $idx ], $unsorted_list[ $largest ] ) = 
                 array( $unsorted_list[ $largest ], $unsorted_list[ $idx ] );
-            $this->updateSortedList( $unsorted_list );
-            $this->_heapify( $largest, $max );
+            $this->_heapify( $unsorted_list, $largest, $max );
         }
     }
 
     private function _buildHeap(){
-        for( $index = ( int ) ( count( $this->getList() ) / 2 ); $index >= 0; $index-- ){
-            $this->_heapify( $index, count( $this->getList() ) );
+        $unsorted_list = $this->getList();
+        $unsorted_list_size = count( $unsorted_list );
+        for( $index = ( int ) ( $unsorted_list_size / 2 ) - 1; $index >= 0; $index-- ){
+            $this->_heapify( $unsorted_list, $index, $unsorted_list_size - 1 );
         }
+        $this->updateSortedList( $unsorted_list );
     }
 
     public function execute() {
@@ -38,9 +39,9 @@ class HeapSort extends AbstractSort{
         for( $index = count( $unsorted_list ) - 1; $index >= 1; $index-- ){
             list( $unsorted_list[ 0 ], $unsorted_list[ $index ] ) = 
                 array( $unsorted_list[ $index ], $unsorted_list[ 0 ] );
-            $this->updateSortedList( $unsorted_list );
-            $this->_heapify( 0, $index );
+            $this->_heapify( $unsorted_list, 0, $index );
         }
+        $this->updateSortedList( $unsorted_list );
         $this->checkListSorting();
     }
 }
